@@ -1,0 +1,422 @@
+/* ==========================================================================
+   ADMIN PORTAL THEME OVERRIDES
+   - Jet Black: #0A0A0A
+   - Cerulean Blue: #007BA7
+   - Neon Rose: #FF2D95
+   - Elevated Surface: #121212
+   - Card Surface: #14191D
+   - Secondary Surface: #181818
+   - Borders: #26333A
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   DARK THEME (Default for .admin-portal and .admin-portal.admin-dark)
+   -------------------------------------------------------------------------- */
+.admin-portal,
+.admin-portal.admin-dark {
+  background-color: #0a0a0a !important;
+  color: #f5f7fa !important;
+  color-scheme: dark;
+}
+
+/* Backgrounds */
+.admin-portal.admin-dark .bg-slate-950,
+.admin-portal .bg-slate-950 {
+  background-color: #0a0a0a !important;
+}
+
+.admin-portal.admin-dark .bg-slate-950\/80,
+.admin-portal .bg-slate-950\/80 {
+  background-color: rgba(10, 10, 10, 0.85) !important;
+}
+
+.admin-portal.admin-dark .bg-slate-900,
+.admin-portal .bg-slate-900 {
+  background-color: #121212 !important;
+}
+
+.admin-portal.admin-dark .bg-slate-900\/60,
+.admin-portal.admin-dark .bg-slate-900\/80,
+.admin-portal .bg-slate-900\/60,
+.admin-portal .bg-slate-900\/80 {
+  background-color: rgba(18, 18, 18, 0.88) !important;
+}
+
+.admin-portal.admin-dark .bg-slate-800,
+.admin-portal .bg-slate-800 {
+  background-color: #181818 !important;
+}
+
+.admin-portal.admin-dark .bg-slate-800\/80,
+.admin-portal.admin-dark .bg-slate-800\/60,
+.admin-portal.admin-dark .bg-slate-800\/40,
+.admin-portal .bg-slate-800\/80,
+.admin-portal .bg-slate-800\/60,
+.admin-portal .bg-slate-800\/40 {
+  background-color: #181818 !important;
+}
+
+/* Text Colors */
+.admin-portal.admin-dark .text-slate-100,
+.admin-portal.admin-dark .text-slate-200,
+.admin-portal.admin-dark h1,
+.admin-portal.admin-dark h2,
+.admin-portal.admin-dark h3,
+.admin-portal .text-slate-100,
+.admin-portal .text-slate-200,
+.admin-portal h1,
+.admin-portal h2,
+.admin-portal h3 {
+  color: #f5f7fa !important;
+}
+
+.admin-portal.admin-dark .text-slate-300,
+.admin-portal .text-slate-300 {
+  color: #b8c2cc !important;
+}
+
+.admin-portal.admin-dark .text-slate-400,
+.admin-portal .text-slate-400 {
+  color: #8b98a5 !important;
+}
+
+.admin-portal.admin-dark .text-slate-500,
+.admin-portal .text-slate-500 {
+  color: #8b98a5 !important;
+}
+
+/* Borders */
+.admin-portal.admin-dark .border-slate-800,
+.admin-portal.admin-dark .border-slate-800\/80,
+.admin-portal.admin-dark .border-slate-800\/60,
+.admin-portal.admin-dark .border-slate-700,
+.admin-portal.admin-dark .border-slate-700\/60,
+.admin-portal.admin-dark .border-slate-700\/50,
+.admin-portal.admin-dark .border-slate-700\/40,
+.admin-portal .border-slate-800,
+.admin-portal .border-slate-800\/80,
+.admin-portal .border-slate-800\/60,
+.admin-portal .border-slate-700,
+.admin-portal .border-slate-700\/60,
+.admin-portal .border-slate-700\/50,
+.admin-portal .border-slate-700\/40 {
+  border-color: #26333a !important;
+}
+
+.admin-portal.admin-dark .divide-slate-800,
+.admin-portal.admin-dark .divide-slate-800\/80,
+.admin-portal.admin-dark .divide-slate-700,
+.admin-portal .divide-slate-800,
+.admin-portal .divide-slate-800\/80,
+.admin-portal .divide-slate-700 {
+  border-color: #26333a !important;
+}
+
+/* Form Inputs & Textareas & Selects */
+.admin-portal.admin-dark input:not([type="checkbox"]):not([type="radio"]),
+.admin-portal.admin-dark textarea,
+.admin-portal.admin-dark select,
+.admin-portal input:not([type="checkbox"]):not([type="radio"]),
+.admin-portal textarea,
+.admin-portal select {
+  background-color: #12181c !important;
+  color: #f5f7fa !important;
+  border-color: #26333a !important;
+}
+
+.admin-portal.admin-dark input::placeholder,
+.admin-portal.admin-dark textarea::placeholder,
+.admin-portal input::placeholder,
+.admin-portal textarea::placeholder {
+  color: #8b98a5 !important;
+}
+
+.admin-portal.admin-dark input:focus,
+.admin-portal.admin-dark textarea:focus,
+.admin-portal.admin-dark select:focus,
+.admin-portal input:focus,
+.admin-portal textarea:focus,
+.admin-portal select:focus {
+  border-color: #007ba7 !important;
+  box-shadow: 0 0 0 2px rgba(0, 123, 167, 0.25) !important;
+}
+
+/* Primary Accents (Cerulean Blue) */
+.admin-portal.admin-dark .bg-blue-600,
+.admin-portal .bg-blue-600 {
+  background-color: #007ba7 !important;
+  color: #ffffff !important;
+}
+
+.admin-portal.admin-dark .hover\:bg-blue-500:hover,
+.admin-portal .hover\:bg-blue-500:hover {
+  background-color: #0093c7 !important;
+}
+
+.admin-portal.admin-dark .text-blue-400,
+.admin-portal.admin-dark .text-blue-500,
+.admin-portal .text-blue-400,
+.admin-portal .text-blue-500 {
+  color: #007ba7 !important;
+}
+
+/* Secondary Accents / Unread Badges (Neon Rose) */
+.admin-portal.admin-dark .bg-rose-500,
+.admin-portal .bg-rose-500 {
+  background-color: #ff2d95 !important;
+  color: #ffffff !important;
+}
+
+/* Sidebar Specifics (Dark) */
+.admin-portal.admin-dark aside,
+.admin-portal aside {
+  background-color: #121212 !important;
+  border-color: #26333a !important;
+}
+
+.admin-portal.admin-dark aside nav a.bg-blue-600,
+.admin-portal aside nav a.bg-blue-600 {
+  background-color: #007ba7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 167, 0.35) !important;
+}
+
+/* Header (Dark) */
+.admin-portal.admin-dark header,
+.admin-portal header {
+  background-color: rgba(18, 18, 18, 0.9) !important;
+  border-color: #26333a !important;
+}
+
+/* Modals (Dark) */
+.admin-portal.admin-dark [role="dialog"] > div,
+.admin-portal [role="dialog"] > div {
+  background-color: #14191d !important;
+  border-color: #26333a !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Tables (Dark) */
+.admin-portal.admin-dark table thead,
+.admin-portal table thead {
+  background-color: #181818 !important;
+  color: #b8c2cc !important;
+  border-color: #26333a !important;
+}
+
+.admin-portal.admin-dark table tbody tr:hover,
+.admin-portal table tbody tr:hover {
+  background-color: rgba(24, 24, 24, 0.7) !important;
+}
+
+/* Custom Scrollbar (Dark) */
+.admin-portal.admin-dark ::-webkit-scrollbar-track,
+.admin-portal ::-webkit-scrollbar-track {
+  background-color: #0a0a0a !important;
+}
+
+.admin-portal.admin-dark ::-webkit-scrollbar-thumb,
+.admin-portal ::-webkit-scrollbar-thumb {
+  background-color: #26333a !important;
+  border-color: #0a0a0a !important;
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT THEME (Active when .admin-light class is present)
+   -------------------------------------------------------------------------- */
+.admin-portal.admin-light {
+  background-color: #f7fafc !important;
+  color: #17212b !important;
+  color-scheme: light;
+}
+
+/* Backgrounds */
+.admin-portal.admin-light .bg-slate-950 {
+  background-color: #f7fafc !important;
+}
+
+.admin-portal.admin-light .bg-slate-950\/80 {
+  background-color: rgba(247, 250, 252, 0.9) !important;
+}
+
+.admin-portal.admin-light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+.admin-portal.admin-light .bg-slate-900\/60,
+.admin-portal.admin-light .bg-slate-900\/80 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.admin-portal.admin-light .bg-slate-800 {
+  background-color: #edf2f7 !important;
+}
+
+.admin-portal.admin-light .bg-slate-800\/80,
+.admin-portal.admin-light .bg-slate-800\/60,
+.admin-portal.admin-light .bg-slate-800\/40 {
+  background-color: #edf2f7 !important;
+}
+
+.admin-portal.admin-light .bg-slate-800\/30,
+.admin-portal.admin-light .bg-slate-800\/20 {
+  background-color: #f7fafc !important;
+}
+
+/* Text Colors */
+.admin-portal.admin-light .text-slate-100,
+.admin-portal.admin-light .text-slate-200,
+.admin-portal.admin-light h1,
+.admin-portal.admin-light h2,
+.admin-portal.admin-light h3,
+.admin-portal.admin-light h4 {
+  color: #17212b !important;
+}
+
+.admin-portal.admin-light .text-slate-300 {
+  color: #475569 !important;
+}
+
+.admin-portal.admin-light .text-slate-400 {
+  color: #64748b !important;
+}
+
+.admin-portal.admin-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+.admin-portal.admin-light .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+/* Borders */
+.admin-portal.admin-light .border-slate-800,
+.admin-portal.admin-light .border-slate-800\/80,
+.admin-portal.admin-light .border-slate-800\/60,
+.admin-portal.admin-light .border-slate-700,
+.admin-portal.admin-light .border-slate-700\/60,
+.admin-portal.admin-light .border-slate-700\/50,
+.admin-portal.admin-light .border-slate-700\/40 {
+  border-color: #d9e2ea !important;
+}
+
+.admin-portal.admin-light .divide-slate-800,
+.admin-portal.admin-light .divide-slate-800\/80,
+.admin-portal.admin-light .divide-slate-700 {
+  border-color: #d9e2ea !important;
+}
+
+/* Form Inputs & Textareas & Selects */
+.admin-portal.admin-light input:not([type="checkbox"]):not([type="radio"]),
+.admin-portal.admin-light textarea,
+.admin-portal.admin-light select {
+  background-color: #ffffff !important;
+  color: #17212b !important;
+  border-color: #d9e2ea !important;
+}
+
+.admin-portal.admin-light input::placeholder,
+.admin-portal.admin-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.admin-portal.admin-light input:focus,
+.admin-portal.admin-light textarea:focus,
+.admin-portal.admin-light select:focus {
+  border-color: #007ba7 !important;
+  box-shadow: 0 0 0 2px rgba(0, 123, 167, 0.2) !important;
+}
+
+/* Cards & Containers Shadow */
+.admin-portal.admin-light .bg-slate-900 {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover States */
+.admin-portal.admin-light .hover\:bg-slate-800:hover,
+.admin-portal.admin-light .hover\:bg-slate-800\/60:hover,
+.admin-portal.admin-light .hover\:bg-slate-800\/40:hover {
+  background-color: #edf2f7 !important;
+}
+
+.admin-portal.admin-light .hover\:text-white:hover,
+.admin-portal.admin-light .hover\:text-slate-100:hover,
+.admin-portal.admin-light .hover\:text-slate-200:hover {
+  color: #17212b !important;
+}
+
+.admin-portal.admin-light .hover\:border-slate-700:hover {
+  border-color: #cbd5e1 !important;
+}
+
+/* Sidebar Specifics (Light) */
+.admin-portal.admin-light aside {
+  background-color: #ffffff !important;
+  border-color: #d9e2ea !important;
+}
+
+.admin-portal.admin-light aside nav a:not(.bg-blue-600) {
+  color: #475569 !important;
+}
+
+.admin-portal.admin-light aside nav a:not(.bg-blue-600):hover {
+  background-color: #f1f5f9 !important;
+  color: #17212b !important;
+}
+
+.admin-portal.admin-light aside nav a.bg-blue-600 {
+  background-color: #007ba7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 167, 0.35) !important;
+}
+
+/* Headers & Sticky Bars (Light) */
+.admin-portal.admin-light header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: #d9e2ea !important;
+}
+
+/* Tables (Light) */
+.admin-portal.admin-light table thead {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #d9e2ea !important;
+}
+
+.admin-portal.admin-light table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Modals (Light) */
+.admin-portal.admin-light .fixed.inset-0.bg-black\/70 {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+.admin-portal.admin-light [role="dialog"] > div {
+  background-color: #ffffff !important;
+  border-color: #d9e2ea !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Badges & Pills (Light) */
+.admin-portal.admin-light .bg-slate-800.text-slate-400,
+.admin-portal.admin-light .bg-slate-800.text-slate-300 {
+  background-color: #edf2f7 !important;
+  color: #475569 !important;
+  border-color: #d9e2ea !important;
+}
+
+.admin-portal.admin-light .bg-rose-500 {
+  background-color: #d81b78 !important;
+  color: #ffffff !important;
+}
+
+/* Custom Scrollbar for admin light mode */
+.admin-portal.admin-light ::-webkit-scrollbar-track {
+  background-color: #f7fafc !important;
+}
+
+.admin-portal.admin-light ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1 !important;
+  border-color: #f7fafc !important;
+}

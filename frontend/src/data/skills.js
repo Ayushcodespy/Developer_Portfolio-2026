@@ -1,0 +1,11 @@
+export const skillCategories = [
+  { id: 'all', label: 'All' }, { id: 'languages', label: 'Languages' }, { id: 'frameworks', label: 'Frameworks' }, { id: 'databases', label: 'Databases' }, { id: 'tools', label: 'Tools' }, { id: 'ai', label: 'AI Development' },
+]
+
+export const skills = [
+  { name: 'Python', category: 'languages', tone: 'blue', position: 'node-python' }, { name: 'SQL', category: 'languages', tone: 'violet', position: 'node-sql' }, { name: 'JavaScript', category: 'languages', tone: 'cyan', position: 'node-javascript' }, { name: 'HTML/CSS', category: 'languages', tone: 'violet', position: 'node-html' },
+  { name: 'Django', category: 'frameworks', tone: 'cyan', position: 'node-django' }, { name: 'FastAPI', category: 'frameworks', tone: 'blue', position: 'node-fastapi' }, { name: 'Flask', category: 'frameworks', tone: 'violet', position: 'node-flask' }, { name: 'ReactJS', category: 'frameworks', tone: 'cyan', position: 'node-react' }, { name: 'Pandas', category: 'frameworks', tone: 'blue', position: 'node-pandas' }, { name: 'NumPy', category: 'frameworks', tone: 'violet', position: 'node-numpy' },
+  { name: 'PostgreSQL', category: 'databases', tone: 'blue', position: 'node-postgres' }, { name: 'MySQL', category: 'databases', tone: 'cyan', position: 'node-mysql' }, { name: 'SQLite', category: 'databases', tone: 'violet', position: 'node-sqlite' },
+  { name: 'Git', category: 'tools', tone: 'violet', position: 'node-git' }, { name: 'GitHub', category: 'tools', tone: 'blue', position: 'node-github' }, { name: 'VS Code', category: 'tools', tone: 'cyan', position: 'node-vscode' }, { name: 'PyCharm', category: 'tools', tone: 'violet', position: 'node-pycharm' }, { name: 'MS Excel', category: 'tools', tone: 'blue', position: 'node-excel' }, { name: 'Vercel', category: 'tools', tone: 'cyan', position: 'node-vercel' },
+  { name: 'ChatGPT', category: 'ai', tone: 'violet', position: 'node-chatgpt' }, { name: 'OpenAI Codex', category: 'ai', tone: 'blue', position: 'node-codex' }, { name: 'AI-assisted coding', category: 'ai', tone: 'cyan', position: 'node-assisted' }, { name: 'Debugging', category: 'ai', tone: 'violet', position: 'node-debugging' }, { name: 'Refactoring', category: 'ai', tone: 'blue', position: 'node-refactoring' }, { name: 'Documentation', category: 'ai', tone: 'cyan', position: 'node-docs' },
+]

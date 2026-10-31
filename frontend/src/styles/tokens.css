@@ -1,0 +1,107 @@
+/* ==========================================================================
+   CENTRALIZED THEME DESIGN TOKENS
+   - Dark Foundation: Jet Black (#0A0A0A), Cerulean Blue (#007BA7), Neon Rose (#FF2D95)
+   - Supporting Dark: Elevated (#121212), Secondary (#181818), Card (#14191D), Borders (#26333A)
+   - Light Foundation: #F7FAFC, Elevated (#FFFFFF), Secondary (#EDF2F7), Card (#FFFFFF), Borders (#D9E2EA)
+   ========================================================================== */
+
+:root,
+:root[data-theme='dark'],
+html.dark {
+  /* Brand Core Foundation */
+  --color-jet: #0a0a0a;
+  --color-cerulean: #007ba7;
+  --color-cerulean-hover: #0093c7;
+  --color-cerulean-subtle: rgba(0, 123, 167, 0.15);
+  --color-rose: #ff2d95;
+  --color-rose-hover: #ff55ab;
+  --color-rose-subtle: rgba(255, 45, 149, 0.15);
+
+  /* Page Surfaces */
+  --color-bg-base: #0a0a0a;
+  --color-bg-elevated: #121212;
+  --color-bg-secondary: #181818;
+  --color-bg-card: #14191d;
+  --color-bg-input: #12181c;
+
+  /* Typography */
+  --color-text-primary: #f5f7fa;
+  --color-text-secondary: #b8c2cc;
+  --color-text-muted: #8b98a5;
+
+  /* Borders & Dividers */
+  --border-subtle: #26333a;
+  --border-medium: #31424b;
+  --border-highlight-cerulean: rgba(0, 123, 167, 0.45);
+  --border-highlight-rose: rgba(255, 45, 149, 0.45);
+
+  /* Shadows & Glows */
+  --shadow-panel: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --shadow-glow-cerulean: 0 0 24px rgba(0, 123, 167, 0.28);
+  --shadow-glow-rose: 0 0 24px rgba(255, 45, 149, 0.28);
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(135deg, #007ba7 0%, #ff2d95 100%);
+  --gradient-cerulean: linear-gradient(135deg, #007ba7 0%, #00a6db 100%);
+  --gradient-rose: linear-gradient(135deg, #ff2d95 0%, #d81b78 100%);
+
+  /* Navigation & Overlays */
+  --nav-surface: rgba(10, 10, 10, 0.85);
+  --glass-surface: rgba(20, 25, 29, 0.88);
+  --scrollbar-thumb: #26333a;
+
+  /* Legacy aliases for backward compatibility */
+  --color-electric: #007ba7;
+  --color-violet: #ff2d95;
+  --color-cyan: #007ba7;
+}
+
+:root[data-theme='light'],
+html.light {
+  /* Brand Core Foundation (Accessible for Light Mode) */
+  --color-jet: #f7fafc;
+  --color-cerulean: #007ba7;
+  --color-cerulean-hover: #005f83;
+  --color-cerulean-subtle: rgba(0, 123, 167, 0.08);
+  --color-rose: #d81b78;
+  --color-rose-hover: #ad1457;
+  --color-rose-subtle: rgba(216, 27, 120, 0.08);
+
+  /* Page Surfaces */
+  --color-bg-base: #f7fafc;
+  --color-bg-elevated: #ffffff;
+  --color-bg-secondary: #edf2f7;
+  --color-bg-card: #ffffff;
+  --color-bg-input: #ffffff;
+
+  /* Typography */
+  --color-text-primary: #17212b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+
+  /* Borders & Dividers */
+  --border-subtle: #d9e2ea;
+  --border-medium: #cbd5e1;
+  --border-highlight-cerulean: rgba(0, 123, 167, 0.4);
+  --border-highlight-rose: rgba(216, 27, 120, 0.4);
+
+  /* Shadows & Glows */
+  --shadow-panel: 0 12px 36px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --shadow-glow-cerulean: 0 0 20px rgba(0, 123, 167, 0.16);
+  --shadow-glow-rose: 0 0 20px rgba(216, 27, 120, 0.16);
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(135deg, #007ba7 0%, #d81b78 100%);
+  --gradient-cerulean: linear-gradient(135deg, #007ba7 0%, #005f83 100%);
+  --gradient-rose: linear-gradient(135deg, #d81b78 0%, #ad1457 100%);
+
+  /* Navigation & Overlays */
+  --nav-surface: rgba(255, 255, 255, 0.92);
+  --glass-surface: rgba(255, 255, 255, 0.92);
+  --scrollbar-thumb: #cbd5e1;
+
+  /* Legacy aliases for backward compatibility */
+  --color-electric: #007ba7;
+  --color-violet: #d81b78;
+  --color-cyan: #007ba7;
+}
