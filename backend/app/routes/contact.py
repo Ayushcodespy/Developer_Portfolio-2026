@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
-from app.core.email import send_email
+from app.core.email import send_email, send_visitor_confirmation
 from app.database.session import get_db
 from app.models.contact_message import ContactMessage
 from app.schemas.contact_message import ContactMessageCreate, ContactMessageResponse
@@ -59,5 +59,27 @@ def create_contact_message(message: ContactMessageCreate, db: Session = Depends(
                 logger.warning("Message #%s saved, but notification email failed: %s", db_message.id, err)
         except Exception as mail_err:
             logger.error("Error during contact email notification: %s", type(mail_err).__name__)
+
+    # Automatically send professional confirmation email to the visitor
+    if settings.smtp_host and db_message.email:
+        portfolio_url = settings.portfolio_url or settings.frontend_url
+        try:
+            v_success, v_err = send_visitor_confirmation(
+                visitor_email=db_message.email,
+                visitor_name=db_message.name,
+                message_subject=db_message.subject,
+                message_text=db_message.message,
+                portfolio_url=portfolio_url,
+            )
+            if not v_success:
+                logger.warning(
+                    "Message #%s saved, but visitor confirmation email failed: %s",
+                    db_message.id,
+                    v_err,
+                )
+            else:
+                logger.info("Visitor confirmation email successfully sent to %s", db_message.email)
+        except Exception as conf_err:
+            logger.error("Error during visitor confirmation email: %s", type(conf_err).__name__)
 
     return db_message

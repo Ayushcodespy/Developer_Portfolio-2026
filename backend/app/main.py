@@ -34,6 +34,9 @@ elif "127.0.0.1" in settings.frontend_url:
     if alt not in allowed_origins:
         allowed_origins.append(alt)
 
+if settings.portfolio_url and settings.portfolio_url not in allowed_origins:
+    allowed_origins.append(settings.portfolio_url)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,

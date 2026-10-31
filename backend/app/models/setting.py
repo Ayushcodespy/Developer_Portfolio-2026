@@ -1,8 +1,9 @@
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, Text, DateTime
+from app.core.config import get_settings
 from app.database.session import Base
 
-DEFAULT_RESUME_URL = "https://drive.google.com/file/d/138oZq3lHvm-3PsaHVz7hmR0SrOmvs_1G/view?usp=sharing"
+DEFAULT_RESUME_URL = get_settings().resume_url
 
 
 class SiteSetting(Base):

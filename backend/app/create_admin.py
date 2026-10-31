@@ -3,14 +3,16 @@ import sys
 import getpass
 from pathlib import Path
 
+from app.core.config import get_settings
 from app.database.session import Base, SessionLocal, engine
 from app.models.admin_user import AdminUser
 from app.security import hash_password
 
 
 def main():
-    username = os.getenv("ADMIN_USERNAME")
-    password = os.getenv("ADMIN_PASSWORD")
+    settings = get_settings()
+    username = settings.admin_username or os.getenv("ADMIN_USERNAME")
+    password = settings.admin_password or os.getenv("ADMIN_PASSWORD")
 
     if not username or not password:
         if sys.stdin.isatty():
