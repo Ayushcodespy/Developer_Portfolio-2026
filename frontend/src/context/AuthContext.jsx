@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
       setError(null)
       return data
     } catch {
+      localStorage.removeItem('admin_token')
       setAdmin(null)
       return null
     } finally {
@@ -31,9 +32,13 @@ export function AuthProvider({ children }) {
     setError(null)
     try {
       const data = await adminApi.auth.login({ username, password })
+      if (data?.token) {
+        localStorage.setItem('admin_token', data.token)
+      }
       setAdmin(data)
       return data
     } catch (err) {
+      localStorage.removeItem('admin_token')
       setError(err.message || 'Login failed. Please check your credentials.')
       throw err
     }
@@ -45,6 +50,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.error('Logout error:', err)
     } finally {
+      localStorage.removeItem('admin_token')
       setAdmin(null)
     }
   }

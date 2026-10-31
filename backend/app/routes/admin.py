@@ -54,16 +54,21 @@ def login(payload: LoginRequest, response: Response, db: Session = Depends(get_d
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
 
     settings = get_settings()
+    token = create_token(admin)
+    is_cross_site = bool(settings.frontend_url and "localhost" not in settings.frontend_url)
+    cookie_samesite = "none" if is_cross_site else "lax"
+    cookie_secure = True if is_cross_site else settings.cookie_secure
+
     response.set_cookie(
         key="admin_session",
-        value=create_token(admin),
+        value=token,
         httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
+        secure=cookie_secure,
+        samesite=cookie_samesite,
         max_age=settings.admin_session_minutes * 60,
         path="/",
     )
-    return admin
+    return AdminIdentity(id=admin.id, username=admin.username, token=token)
 
 
 @router.get("/me", response_model=AdminIdentity)
@@ -73,8 +78,18 @@ def me(admin: AdminUser = Depends(get_current_admin)):
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(response: Response, admin: AdminUser = Depends(get_current_admin)):
+    settings = get_settings()
+    is_cross_site = bool(settings.frontend_url and "localhost" not in settings.frontend_url)
+    cookie_samesite = "none" if is_cross_site else "lax"
+    cookie_secure = True if is_cross_site else settings.cookie_secure
+
     response.status_code = status.HTTP_204_NO_CONTENT
-    response.delete_cookie("admin_session", path="/")
+    response.delete_cookie(
+        "admin_session",
+        path="/",
+        secure=cookie_secure,
+        samesite=cookie_samesite,
+    )
     return response
 
 

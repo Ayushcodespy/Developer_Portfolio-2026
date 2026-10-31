@@ -2,10 +2,16 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 
 export async function apiFetch(path, options = {}) {
   const { headers, ...rest } = options
+
+  // Attach Bearer token from localStorage if available (supports cross-site auth without third-party cookie restrictions)
+  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null
+  const authHeaders = token ? { Authorization: `Bearer ${token}` } : {}
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     credentials: 'include',
     headers: {
       Accept: 'application/json',
+      ...authHeaders,
       ...headers,
     },
     ...rest,

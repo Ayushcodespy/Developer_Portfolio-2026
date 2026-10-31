@@ -35,6 +35,7 @@ class LoginRequest(BaseModel):
 class AdminIdentity(BaseModel):
     id: int
     username: str
+    token: Optional[str] = None
     model_config = {"from_attributes": True}
 
 
