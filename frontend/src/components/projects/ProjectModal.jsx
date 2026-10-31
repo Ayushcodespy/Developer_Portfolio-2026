@@ -71,11 +71,22 @@ export function ProjectModal({ project, isOpen, onClose }) {
 
               <div className="space-y-5">
                 <div>
-                  {project.subtitle && (
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#007BA7] dark:text-[#38BDF8] mb-1.5">
-                      {project.subtitle}
-                    </p>
-                  )}
+                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                    {project.category && (
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        project.category === 'Data Analysis'
+                          ? 'bg-[#FF2D95]/15 text-[#FF2D95] dark:text-[#FF66B2] border border-[#FF2D95]/30'
+                          : 'bg-[#007BA7]/15 text-[#007BA7] dark:text-[#38BDF8] border border-[#007BA7]/30'
+                      }`}>
+                        {project.category}
+                      </span>
+                    )}
+                    {project.subtitle && (
+                      <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#8B98A5]">
+                        {project.subtitle}
+                      </span>
+                    )}
+                  </div>
                   <h2
                     id={`project-title-${project.id}`}
                     className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold text-[#17212B] dark:text-[#F5F7FA]"

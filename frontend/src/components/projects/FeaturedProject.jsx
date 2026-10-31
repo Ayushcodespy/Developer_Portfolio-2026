@@ -40,8 +40,13 @@ export function FeaturedProject({ project, onClick }) {
                   <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#FF2D95]/15 text-[#D81B78] dark:text-[#FF66B2] border border-[#FF2D95]/30">
                     ★ Featured Project
                   </span>
+                  {project.category && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#007BA7]/15 text-[#007BA7] dark:text-[#38BDF8] border border-[#007BA7]/30">
+                      {project.category}
+                    </span>
+                  )}
                   {project.subtitle && (
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#007BA7] dark:text-[#38BDF8]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#475569] dark:text-[#8B98A5]">
                       {project.subtitle}
                     </span>
                   )}

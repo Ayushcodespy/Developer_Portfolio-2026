@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from sqlalchemy import func
+from typing import List, Optional
 
 from app.database.session import get_db
 from app.models.project import Project
@@ -16,9 +17,18 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 
 
 @router.get("", response_model=List[ProjectResponse])
-def get_projects(db: Session = Depends(get_db)):
-    """Get all projects ordered by display order."""
-    projects = db.query(Project).order_by(Project.display_order).all()
+def get_projects(category: Optional[str] = None, db: Session = Depends(get_db)):
+    """Get all projects ordered by display order, optionally filtered by category."""
+    query = db.query(Project).order_by(Project.display_order)
+    if category and category.lower() != "all":
+        cat_clean = category.lower().replace("-", " ")
+        if cat_clean in {"data analysis", "data analyst"}:
+            query = query.filter(func.lower(Project.category) == "data analysis")
+        elif cat_clean in {"development", "dev"}:
+            query = query.filter(func.lower(Project.category) == "development")
+        else:
+            query = query.filter(func.lower(Project.category) == category.lower())
+    projects = query.all()
     return projects
 
 

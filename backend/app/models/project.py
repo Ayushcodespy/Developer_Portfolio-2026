@@ -16,7 +16,7 @@ class Project(Base):
     title = Column(String(255), nullable=False)
     subtitle = Column(String(255))
     description = Column(Text, nullable=False)
-    category = Column(String(100))
+    category = Column(String(100), nullable=False, default="Development")
     technologies = Column(Text)  # JSON string of technologies
     features = Column(Text)  # JSON string of features
     github_url = Column(String(500))

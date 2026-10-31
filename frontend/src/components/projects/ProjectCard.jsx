@@ -32,12 +32,12 @@ export function ProjectCard({ project, onClick }) {
           />
         </div>
 
-        {/* Category / Featured Badge - Top Left Floating Pill */}
+        {/* Category Badge - Top Left Floating Pill */}
         {project.category && (
           <div className="absolute top-3 left-3 z-10">
             <span
               className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide backdrop-blur-md shadow-xs ${
-                project.featured || project.category?.toLowerCase().includes('featured')
+                project.category === 'Data Analysis'
                   ? 'bg-[#181818]/90 text-[#FF66B2] border border-[#FF2D95]/50'
                   : 'bg-[#14191D]/90 text-[#38BDF8] border border-[#007BA7]/50'
               }`}

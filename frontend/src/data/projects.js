@@ -14,7 +14,7 @@ export const projects = [
       'API performance optimization',
       'Testing and debugging'
     ],
-    category: 'ai-rag',
+    category: 'Development',
     positioning: 'AI / Backend / Full Stack',
     github: 'https://github.com/Ayushcodespy/FAQ-Chatbot-MPOnline.git',
     liveDemo: null,
@@ -40,7 +40,7 @@ export const projects = [
       'Admin dashboard',
       'Real-time data handling'
     ],
-    category: 'full-stack',
+    category: 'Development',
     positioning: 'Full Stack / E-Commerce / Backend',
     github: null,
     liveDemo: null,
@@ -66,7 +66,7 @@ export const projects = [
       'Centralized business records',
       'Workflow automation'
     ],
-    category: 'django',
+    category: 'Development',
     positioning: 'Django / Business Application / Database',
     github: null,
     liveDemo: null,
@@ -77,9 +77,7 @@ export const projects = [
 ]
 
 export const projectCategories = [
-  { id: 'all', label: 'All' },
-  { id: 'ai-rag', label: 'AI / RAG' },
-  { id: 'full-stack', label: 'Full Stack' },
-  { id: 'backend', label: 'Backend' },
-  { id: 'django', label: 'Django' }
+  { id: 'all', label: 'All Projects' },
+  { id: 'Development', label: 'Development' },
+  { id: 'Data Analysis', label: 'Data Analysis' }
 ]

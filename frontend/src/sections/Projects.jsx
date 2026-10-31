@@ -8,8 +8,28 @@ import { ProjectModal } from '../components/projects/ProjectModal'
 import { projectsApi } from '../services/api'
 import { projectCategories as defaultCategories } from '../data/projects'
 
+const STORAGE_KEY = 'portfolio_project_category'
+
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      const fromUrl = urlParams.get('category') || urlParams.get('cat')
+      if (fromUrl) {
+        const lower = fromUrl.toLowerCase()
+        if (lower === 'development') return 'Development'
+        if (lower === 'data analysis' || lower === 'data-analysis') return 'Data Analysis'
+        if (lower === 'all') return 'all'
+      }
+      const saved = sessionStorage.getItem(STORAGE_KEY)
+      if (saved && ['all', 'Development', 'Data Analysis'].includes(saved)) {
+        return saved
+      }
+    }
+    return 'all'
+  })
+
+  const [activeTech, setActiveTech] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedProject, setSelectedProject] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -18,12 +38,27 @@ export function Projects() {
   const [error, setError] = useState(null)
   const reduced = useReducedMotion()
 
+  const handleCategoryChange = (catId) => {
+    setActiveCategory(catId)
+    setActiveTech(null) // Reset secondary tech filter on category change
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(STORAGE_KEY, catId)
+      const url = new URL(window.location.href)
+      if (catId === 'all') {
+        url.searchParams.delete('category')
+      } else {
+        url.searchParams.set('category', catId)
+      }
+      window.history.replaceState({}, '', url.toString())
+    }
+  }
+
   const loadProjects = async () => {
     try {
       setLoading(true)
       setError(null)
       const data = await projectsApi.get()
-      const transformedProjects = data.map((project) => {
+      const transformedProjects = (data || []).map((project) => {
         let techArr = []
         try {
           if (Array.isArray(project.technologies)) {
@@ -57,8 +92,8 @@ export function Projects() {
           description: project.description,
           technologies: techArr,
           keyPoints: keyPointsArr,
-          category: project.category,
-          positioning: project.category || 'Full Stack',
+          category: project.category || 'Development',
+          positioning: project.category || 'Development',
           github: project.github_url,
           liveDemo: project.live_url,
           featured: Boolean(project.featured),
@@ -79,39 +114,44 @@ export function Projects() {
     loadProjects()
   }, [])
 
-  // Build unified categories list based on existing projects
-  const categories = useMemo(() => {
-    const map = new Map()
-    map.set('all', { id: 'all', label: 'All' })
+  // Two primary professional career categories
+  const categories = useMemo(() => [
+    { id: 'all', label: 'All Projects' },
+    { id: 'Development', label: 'Development' },
+    { id: 'Data Analysis', label: 'Data Analysis' },
+  ], [])
 
-    defaultCategories.forEach((c) => {
-      if (c.id !== 'all') {
-        map.set(c.id.toLowerCase(), c)
-      }
-    })
-
+  // Collect distinct technologies for secondary filter based on active category
+  const availableTechnologies = useMemo(() => {
+    const techSet = new Set()
     projects.forEach((p) => {
-      if (p.category) {
-        const id = p.category.toLowerCase().replace(/[^a-z0-9]/g, '-')
-        if (!map.has(id)) {
-          map.set(id, { id, label: p.category })
+      if (activeCategory === 'all' || p.category?.toLowerCase() === activeCategory.toLowerCase()) {
+        if (Array.isArray(p.technologies)) {
+          p.technologies.forEach((t) => techSet.add(t))
         }
       }
     })
+    return Array.from(techSet).sort()
+  }, [projects, activeCategory])
 
-    return Array.from(map.values())
-  }, [projects])
-
-  // Filter projects by category and search term
+  // Filter projects by category, search term, and secondary technology
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
-      // Category filter
+      // Primary category filter (All, Development, Data Analysis)
       if (activeCategory !== 'all') {
-        const pCatNormalized = (project.category || '').toLowerCase().replace(/[^a-z0-9]/g, '-')
-        const activeNormalized = activeCategory.toLowerCase().replace(/[^a-z0-9]/g, '-')
-        if (pCatNormalized !== activeNormalized && (project.category || '').toLowerCase() !== activeCategory.toLowerCase()) {
+        const pCatNormalized = (project.category || '').toLowerCase().trim()
+        const activeNormalized = activeCategory.toLowerCase().trim()
+        if (pCatNormalized !== activeNormalized) {
           return false
         }
+      }
+
+      // Secondary technology filter
+      if (activeTech) {
+        const hasTech = project.technologies?.some(
+          (t) => t.toLowerCase() === activeTech.toLowerCase()
+        )
+        if (!hasTech) return false
       }
 
       // Search query filter
@@ -132,14 +172,14 @@ export function Projects() {
 
       return true
     })
-  }, [projects, activeCategory, searchQuery])
+  }, [projects, activeCategory, activeTech, searchQuery])
 
-  // Retain AI FAQ Chatbot or explicitly featured project as top showcase
+  // Retain featured project in the filtered list (e.g. AI FAQ Chatbot)
   const featuredProject = useMemo(() => {
-    return projects.find((p) => p.featured) || projects.find((p) => p.title?.includes('FAQ Chatbot'))
-  }, [projects])
+    return filteredProjects.find((p) => p.featured) || null
+  }, [filteredProjects])
 
-  const showFeaturedInView = featuredProject && filteredProjects.some((p) => p.id === featuredProject.id)
+  const showFeaturedInView = Boolean(featuredProject)
   const secondaryProjects = filteredProjects.filter((p) => !showFeaturedInView || p.id !== featuredProject.id)
 
   const handleProjectClick = (project) => {
@@ -165,7 +205,7 @@ export function Projects() {
   return (
     <section id="projects" className="projects-section section-shell" aria-labelledby="projects-title">
       <Container>
-        {/* Upper Showcase Header */}
+        {/* Showcase Header */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -175,7 +215,7 @@ export function Projects() {
         >
           <div className="flex flex-col gap-2">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#007BA7] dark:text-[#38BDF8]">
-              PROJECTS
+              DUAL CAREER SHOWCASE
             </p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold tracking-tight text-[#17212B] dark:text-white">
               Featured{' '}
@@ -184,16 +224,19 @@ export function Projects() {
               </span>
             </h2>
             <p className="text-sm sm:text-base text-[#475569] dark:text-[#B8C2CC] leading-relaxed max-w-2xl">
-              A collection of my work, showcasing real-world applications, robust APIs, and technical problem-solving.
+              Explore work across Python backend development, scalable APIs, and data analysis workflows.
             </p>
           </div>
 
           <ProjectFilter
             categories={categories}
             activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
+            onCategoryChange={handleCategoryChange}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
+            availableTechnologies={availableTechnologies}
+            activeTech={activeTech}
+            onTechChange={setActiveTech}
           />
         </motion.div>
 
@@ -212,6 +255,7 @@ export function Projects() {
           <div className="mt-12 flex flex-col items-center justify-center py-12 text-center">
             <p className="text-[#475569] dark:text-[#B8C2CC] mb-4">{error}</p>
             <button
+              type="button"
               onClick={loadProjects}
               className="px-4 py-2 bg-[#007BA7] hover:bg-[#0093C7] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer"
             >
@@ -223,7 +267,7 @@ export function Projects() {
         {/* Projects Content Grid */}
         {!loading && !error && (
           <div className="mt-8 sm:mt-10 space-y-8 sm:space-y-10">
-            {/* Primary Featured Project Card (AI FAQ Chatbot preserved) */}
+            {/* Featured Project Showcase */}
             {showFeaturedInView && (
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
@@ -238,7 +282,7 @@ export function Projects() {
               </motion.div>
             )}
 
-            {/* 3-Column Desktop Grid (2-column tablet, 1-column mobile) */}
+            {/* Responsive Projects Grid */}
             {secondaryProjects.length > 0 && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -275,20 +319,23 @@ export function Projects() {
                 animate={{ opacity: 1 }}
                 className="text-center py-16 bg-white dark:bg-[#14191D] rounded-2xl border border-[#D9E2EA] dark:border-[#26333A] p-8 shadow-xs"
               >
-                <p className="text-[#17212B] dark:text-[#F5F7FA] font-medium">No projects match the selected criteria.</p>
-                <p className="text-[#64748B] dark:text-[#8B98A5] text-xs sm:text-sm mt-1">
-                  Try clearing your search term or selecting a different category.
+                <p className="text-[#17212B] dark:text-[#F5F7FA] font-medium">
+                  No {activeCategory !== 'all' ? activeCategory : ''} projects match the selected criteria.
                 </p>
-                {(activeCategory !== 'all' || searchQuery) && (
+                <p className="text-[#64748B] dark:text-[#8B98A5] text-xs sm:text-sm mt-1">
+                  Try clearing your search term, resetting technology tags, or choosing another category.
+                </p>
+                {(activeCategory !== 'all' || searchQuery || activeTech) && (
                   <button
                     type="button"
                     onClick={() => {
-                      setActiveCategory('all')
+                      handleCategoryChange('all')
                       setSearchQuery('')
+                      setActiveTech(null)
                     }}
                     className="mt-4 px-4 py-2 text-xs font-semibold text-[#007BA7] dark:text-[#38BDF8] bg-[#007BA7]/10 hover:bg-[#007BA7]/20 border border-[#007BA7]/30 rounded-lg transition-colors cursor-pointer"
                   >
-                    Reset Filters
+                    Reset All Filters
                   </button>
                 )}
               </motion.div>

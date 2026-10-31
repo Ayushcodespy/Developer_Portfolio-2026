@@ -13,7 +13,7 @@ class ProjectBase(BaseModel):
     title: str
     subtitle: Optional[str] = None
     description: str
-    category: Optional[str] = None
+    category: Optional[str] = "Development"
     technologies: Optional[str] = None  # JSON string
     features: Optional[str] = None  # JSON string
     github_url: Optional[str] = None

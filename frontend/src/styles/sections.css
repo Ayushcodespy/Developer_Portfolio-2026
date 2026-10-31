@@ -387,6 +387,11 @@
 .node-debugging { top: 53%; left: 3%; }
 .node-refactoring { top: 27%; left: 18%; }
 .node-docs { top: 64%; right: 25%; }
+.node-powerbi { top: 38%; right: 12%; }
+.node-matplotlib { top: 40%; left: 12%; }
+.node-seaborn { top: 82%; left: 45%; }
+.node-restapis { top: 18%; left: 18%; }
+.node-default { position: relative; }
 
 .skills-hint {
   margin-top: -1rem;

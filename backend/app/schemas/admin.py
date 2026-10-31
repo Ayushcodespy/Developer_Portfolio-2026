@@ -47,7 +47,7 @@ class ProjectInput(BaseModel):
     title: str = Field(min_length=1, max_length=255)
     description: str = Field(min_length=1)
     subtitle: Optional[str] = None
-    category: Optional[str] = None
+    category: str = Field(default="Development", min_length=1, max_length=100)
     technologies: Optional[Any] = None
     features: Optional[Any] = None
     github_url: Optional[str] = None
@@ -57,6 +57,21 @@ class ProjectInput(BaseModel):
     featured: bool = False
     display_order: int = Field(default=0, ge=0)
 
+    @field_validator("category", mode="before")
+    @classmethod
+    def validate_category(cls, v: Any) -> str:
+        if not v or not str(v).strip():
+            return "Development"
+        cleaned = str(v).strip()
+        cleaned_lower = cleaned.lower().replace("-", " ")
+        if cleaned_lower in {"data analysis", "data analyst", "data analytics"}:
+            return "Data Analysis"
+        if cleaned_lower in {"development", "dev", "full stack", "backend", "frontend", "ai / ml", "ai-rag", "django"}:
+            return "Development"
+        if cleaned in {"Development", "Data Analysis"}:
+            return cleaned
+        raise ValueError("Project category must be either 'Development' or 'Data Analysis'")
+
     @field_validator("technologies", "features", mode="before")
     @classmethod
     def serialize_json_fields(cls, v: Any) -> Optional[str]:
@@ -65,8 +80,25 @@ class ProjectInput(BaseModel):
 
 class SkillInput(BaseModel):
     name: str = Field(min_length=1, max_length=100)
-    category: str = Field(min_length=1, max_length=50)
+    category: str = Field(default="Development", min_length=1, max_length=50)
     display_order: int = Field(default=0, ge=0)
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def validate_category(cls, v: Any) -> str:
+        if not v or not str(v).strip():
+            return "Development"
+        cleaned = str(v).strip()
+        cleaned_lower = cleaned.lower().replace("-", " ")
+        if cleaned_lower in {"data analysis", "data analyst", "data analytics"}:
+            return "Data Analysis"
+        if cleaned_lower in {"development", "dev"}:
+            return "Development"
+        if cleaned_lower in {"languages", "frameworks", "databases", "tools", "ai"}:
+            return "Development"
+        if cleaned in {"Development", "Data Analysis"}:
+            return cleaned
+        raise ValueError("Skill category must be either 'Development' or 'Data Analysis'")
 
 
 class ExperienceInput(BaseModel):

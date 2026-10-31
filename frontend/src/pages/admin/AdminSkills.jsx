@@ -14,16 +14,13 @@ import { ConfirmModal } from '../../components/admin/ConfirmModal'
 import { Alert } from '../../components/admin/Alert'
 
 const CATEGORIES = [
-  { id: 'languages', label: 'Languages' },
-  { id: 'frameworks', label: 'Frameworks' },
-  { id: 'databases', label: 'Databases' },
-  { id: 'tools', label: 'Tools' },
-  { id: 'ai', label: 'AI / ML' },
+  { id: 'Development', label: 'Development' },
+  { id: 'Data Analysis', label: 'Data Analysis' },
 ]
 
 const emptyForm = {
   name: '',
-  category: 'languages',
+  category: 'Development',
   display_order: 0,
 }
 
@@ -68,7 +65,7 @@ export function AdminSkills() {
     setEditingId(null)
     setFormData({
       ...emptyForm,
-      category: activeTab === 'all' ? 'languages' : activeTab,
+      category: activeTab === 'all' ? 'Development' : activeTab,
       display_order: skills.length,
     })
     setFormError(null)
@@ -79,7 +76,7 @@ export function AdminSkills() {
     setEditingId(skill.id)
     setFormData({
       name: skill.name || '',
-      category: skill.category || 'languages',
+      category: skill.category === 'Data Analysis' ? 'Data Analysis' : 'Development',
       display_order: skill.display_order ?? 0,
     })
     setFormError(null)
@@ -95,20 +92,25 @@ export function AdminSkills() {
       return
     }
 
+    if (!formData.category || !['Development', 'Data Analysis'].includes(formData.category)) {
+      setFormError('Skill Category is required. Choose Development or Data Analysis.')
+      return
+    }
+
     try {
       setSaving(true)
       const payload = {
         name: formData.name.trim(),
-        category: formData.category.trim(),
+        category: formData.category,
         display_order: parseInt(formData.display_order, 10) || 0,
       }
 
       if (editingId) {
         await adminApi.skills.update(editingId, payload)
-        setSuccess(`Skill "${formData.name}" updated successfully in SQLite.`)
+        setSuccess(`Skill "${formData.name}" updated successfully in database.`)
       } else {
         await adminApi.skills.create(payload)
-        setSuccess(`Skill "${formData.name}" created successfully in SQLite.`)
+        setSuccess(`Skill "${formData.name}" created successfully in database.`)
       }
 
       setIsFormOpen(false)
@@ -130,7 +132,7 @@ export function AdminSkills() {
     try {
       setDeleting(true)
       await adminApi.skills.delete(deleteId)
-      setSuccess(`Skill "${deleteItemTitle}" deleted from SQLite database.`)
+      setSuccess(`Skill "${deleteItemTitle}" deleted from database.`)
       setDeleteId(null)
       fetchSkills()
     } catch (err) {
@@ -148,20 +150,10 @@ export function AdminSkills() {
   })
 
   const getCategoryBadgeClass = (category) => {
-    switch (category) {
-      case 'languages':
-        return 'bg-blue-500/20 text-blue-300 border-blue-500/30'
-      case 'frameworks':
-        return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-      case 'databases':
-        return 'bg-violet-500/20 text-violet-300 border-violet-500/30'
-      case 'tools':
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-      case 'ai':
-        return 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
-      default:
-        return 'bg-slate-800 text-slate-300 border-slate-700'
+    if (category === 'Data Analysis') {
+      return 'bg-pink-500/20 text-pink-300 border-pink-500/30'
     }
+    return 'bg-sky-500/20 text-sky-300 border-sky-500/30'
   }
 
   return (
@@ -171,7 +163,7 @@ export function AdminSkills() {
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-100">Skills Management</h2>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Manage technical proficiencies and categories in SQLite without fake percentage ratings.
+            Manage technical proficiencies categorized under Development or Data Analysis.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -218,6 +210,7 @@ export function AdminSkills() {
           </button>
           {CATEGORIES.map((cat) => {
             const count = skills.filter((s) => s.category === cat.id).length
+            const isDA = cat.id === 'Data Analysis'
             return (
               <button
                 key={cat.id}
@@ -227,7 +220,9 @@ export function AdminSkills() {
                 onClick={() => setActiveTab(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors shrink-0 cursor-pointer ${
                   activeTab === cat.id
-                    ? 'bg-[#007BA7] text-white shadow-2xs'
+                    ? isDA
+                      ? 'bg-[#FF2D95] text-white shadow-2xs font-semibold'
+                      : 'bg-[#007BA7] text-white shadow-2xs font-semibold'
                     : 'text-slate-400 hover:text-slate-200 bg-slate-900 hover:bg-slate-800'
                 }`}
               >
@@ -346,12 +341,12 @@ export function AdminSkills() {
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-              Category *
+              Skill Category *
             </label>
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#007BA7]"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.id} value={cat.id}>

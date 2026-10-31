@@ -11,7 +11,7 @@ from datetime import datetime
 
 class SkillBase(BaseModel):
     name: str
-    category: str
+    category: str = "Development"
     display_order: int = 0
 
 

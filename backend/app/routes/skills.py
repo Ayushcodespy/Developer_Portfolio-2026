@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional
 
 from app.database.session import get_db
@@ -19,7 +20,13 @@ router = APIRouter(prefix="/skills", tags=["skills"])
 def get_skills(category: Optional[str] = None, db: Session = Depends(get_db)):
     """Get all skills, optionally filtered by category."""
     query = db.query(Skill).order_by(Skill.display_order)
-    if category:
-        query = query.filter(Skill.category == category)
+    if category and category.lower() != "all":
+        cat_clean = category.lower().replace("-", " ")
+        if cat_clean in {"data analysis", "data analyst"}:
+            query = query.filter(func.lower(Skill.category) == "data analysis")
+        elif cat_clean in {"development", "dev"}:
+            query = query.filter(func.lower(Skill.category) == "development")
+        else:
+            query = query.filter(func.lower(Skill.category) == category.lower())
     skills = query.all()
     return skills
