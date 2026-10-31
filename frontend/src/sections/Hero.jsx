@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowDown,
@@ -14,6 +15,9 @@ import {
 import { Link } from 'react-router-dom'
 import { Container } from '../components/ui/Container'
 import { HeroVisual } from '../components/common/HeroVisual'
+import { settingsApi } from '../services/api'
+
+const DEFAULT_RESUME_URL = 'https://drive.google.com/file/d/138oZq3lHvm-3PsaHVz7hmR0SrOmvs_1G/view?usp=sharing'
 
 const reveal = { hidden: { opacity: 0, y: 18, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }
 
@@ -38,6 +42,25 @@ const social = [
 export function Hero() {
   const reduced = useReducedMotion()
   const transition = (delay) => ({ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] })
+
+  const [resumeUrl, setResumeUrl] = useState(DEFAULT_RESUME_URL)
+
+  useEffect(() => {
+    let mounted = true
+    settingsApi
+      .getResume()
+      .then((data) => {
+        if (mounted && data?.resume_url) {
+          setResumeUrl(data.resume_url)
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not load dynamic resume link, using default:', err)
+      })
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const scrollToAbout = () => {
     const aboutSection = document.getElementById('about')
@@ -122,8 +145,9 @@ export function Hero() {
                 Explore My Work <ArrowUpRight size={17} />
               </Link>
               <a
-                href="https://drive.google.com/file/d/138oZq3lHvm-3PsaHVz7hmR0SrOmvs_1G/view?usp=sharing"
-                download
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hero-button hero-button-secondary focus-ring"
               >
                 Download Resume <Download size={16} />

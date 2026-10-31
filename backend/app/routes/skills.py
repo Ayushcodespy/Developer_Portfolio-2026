@@ -23,10 +23,12 @@ def get_skills(category: Optional[str] = None, db: Session = Depends(get_db)):
     if category and category.lower() != "all":
         cat_clean = category.lower().replace("-", " ")
         if cat_clean in {"data analysis", "data analyst"}:
-            query = query.filter(func.lower(Skill.category) == "data analysis")
+            query = query.filter((func.lower(Skill.category) == "data analysis") | (func.lower(Skill.category) == "both"))
         elif cat_clean in {"development", "dev"}:
-            query = query.filter(func.lower(Skill.category) == "development")
+            query = query.filter((func.lower(Skill.category) == "development") | (func.lower(Skill.category) == "both"))
+        elif cat_clean in {"both"}:
+            query = query.filter(func.lower(Skill.category) == "both")
         else:
-            query = query.filter(func.lower(Skill.category) == category.lower())
+            query = query.filter((func.lower(Skill.category) == category.lower()) | (func.lower(Skill.category) == "both"))
     skills = query.all()
     return skills

@@ -45,12 +45,12 @@ class TestCategoriesFeature(unittest.TestCase):
         dev_skills = get_skills(category="Development", db=self.db)
         self.assertGreater(len(dev_skills), 0)
         for s in dev_skills:
-            self.assertEqual(s.category, "Development")
+            self.assertIn(s.category, ["Development", "Both"])
 
         da_skills = get_skills(category="Data Analysis", db=self.db)
         self.assertGreater(len(da_skills), 0)
         for s in da_skills:
-            self.assertEqual(s.category, "Data Analysis")
+            self.assertIn(s.category, ["Data Analysis", "Both"])
         da_names = [s.name for s in da_skills]
         self.assertTrue(any(n in da_names for n in ["SQL", "Pandas", "NumPy", "MS Excel"]))
 

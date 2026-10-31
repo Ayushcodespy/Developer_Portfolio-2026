@@ -5,6 +5,7 @@ from app.models.education import Education
 from app.models.certification import Certification
 from app.models.contact_message import ContactMessage
 from app.models.admin_user import AdminUser
+from app.models.setting import SiteSetting
 
 __all__ = [
     "Project",
@@ -12,5 +13,7 @@ __all__ = [
     "Experience",
     "Education",
     "Certification",
-    "ContactMessage", "AdminUser"
+    "ContactMessage",
+    "AdminUser",
+    "SiteSetting",
 ]

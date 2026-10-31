@@ -6,6 +6,7 @@ from app.core.email import send_email
 from app.database.session import get_db
 from app.models import Project, Skill, Experience, Education, Certification, ContactMessage
 from app.models.admin_user import AdminUser
+from app.models.setting import SiteSetting, DEFAULT_RESUME_URL
 from app.schemas.admin import (
     AdminIdentity,
     LoginRequest,
@@ -17,6 +18,7 @@ from app.schemas.admin import (
     CertificationInput,
     MessageStatusInput,
     MessageReplyInput,
+    ResumeSettingInput,
 )
 from app.security import create_token, get_current_admin, verify_password, hash_password
 
@@ -171,6 +173,37 @@ def delete_message(message_id: int, admin: AdminUser = Depends(get_current_admin
     db.delete(item)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+# Resume Settings routes (Explicitly defined before /{resource} to prevent matching conflicts)
+@router.get("/settings/resume")
+def get_admin_resume(admin: AdminUser = Depends(get_current_admin), db: Session = Depends(get_db)):
+    setting = db.query(SiteSetting).filter(SiteSetting.key == "resume_url").first()
+    if not setting:
+        return {"resume_url": DEFAULT_RESUME_URL}
+    return {"resume_url": setting.value}
+
+
+@router.put("/settings/resume")
+@router.post("/settings/resume")
+def update_admin_resume(
+    payload: ResumeSettingInput,
+    admin: AdminUser = Depends(get_current_admin),
+    db: Session = Depends(get_db),
+):
+    setting = db.query(SiteSetting).filter(SiteSetting.key == "resume_url").first()
+    if not setting:
+        setting = SiteSetting(key="resume_url", value=payload.resume_url)
+        db.add(setting)
+    else:
+        setting.value = payload.resume_url
+    db.commit()
+    db.refresh(setting)
+    return {
+        "success": True,
+        "resume_url": setting.value,
+        "message": "Resume URL updated successfully",
+    }
 
 
 # Generic CRUD for portfolio resources

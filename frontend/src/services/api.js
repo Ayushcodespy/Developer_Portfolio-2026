@@ -44,6 +44,9 @@ export const contactApi = {
       body: JSON.stringify(data),
     }),
 }
+export const settingsApi = {
+  getResume: () => apiFetch('/api/settings/resume'),
+}
 
 // Admin APIs (Phase 9)
 export const adminApi = {
@@ -174,5 +177,15 @@ export const adminApi = {
         body: JSON.stringify(data),
       }),
     delete: (id) => apiFetch(`/api/admin/messages/${id}`, { method: 'DELETE' }),
+  },
+
+  settings: {
+    getResume: () => apiFetch('/api/admin/settings/resume'),
+    updateResume: (data) =>
+      apiFetch('/api/admin/settings/resume', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }),
   },
 }

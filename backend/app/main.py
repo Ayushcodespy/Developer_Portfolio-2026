@@ -10,6 +10,7 @@ from app.routes.education import router as education_router
 from app.routes.certifications import router as certifications_router
 from app.routes.contact import router as contact_router
 from app.routes.admin import router as admin_router
+from app.routes.settings import router as settings_router
 from app.database.session import Base, engine
 from app.models.admin_user import AdminUser
 from app.models.certification import Certification
@@ -18,6 +19,7 @@ from app.models.experience import Experience
 from app.models.project import Project
 from app.models.skill import Skill
 from app.models.contact_message import ContactMessage
+from app.models.setting import SiteSetting
 
 settings = get_settings()
 app = FastAPI(title="Ayush Patel Portfolio API", version="0.1.0")
@@ -48,6 +50,7 @@ app.include_router(experience_router, prefix="/api")
 app.include_router(education_router, prefix="/api")
 app.include_router(certifications_router, prefix="/api")
 app.include_router(contact_router, prefix="/api")
+app.include_router(settings_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 
 @app.on_event("startup")

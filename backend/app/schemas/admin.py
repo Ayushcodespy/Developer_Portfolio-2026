@@ -90,15 +90,17 @@ class SkillInput(BaseModel):
             return "Development"
         cleaned = str(v).strip()
         cleaned_lower = cleaned.lower().replace("-", " ")
+        if cleaned_lower in {"both", "development & data analysis", "data analysis & development"}:
+            return "Both"
         if cleaned_lower in {"data analysis", "data analyst", "data analytics"}:
             return "Data Analysis"
         if cleaned_lower in {"development", "dev"}:
             return "Development"
         if cleaned_lower in {"languages", "frameworks", "databases", "tools", "ai"}:
             return "Development"
-        if cleaned in {"Development", "Data Analysis"}:
+        if cleaned in {"Development", "Data Analysis", "Both"}:
             return cleaned
-        raise ValueError("Skill category must be either 'Development' or 'Data Analysis'")
+        raise ValueError("Skill category must be either 'Development', 'Data Analysis', or 'Both'")
 
 
 class ExperienceInput(BaseModel):
@@ -169,4 +171,21 @@ class MessageStatusInput(BaseModel):
 class MessageReplyInput(BaseModel):
     subject: str = Field(default="Re: In response to your message", min_length=1, max_length=255)
     message: str = Field(min_length=1)
+
+
+class ResumeSettingInput(BaseModel):
+    resume_url: str
+
+    @field_validator("resume_url")
+    @classmethod
+    def validate_resume_url(cls, value: str) -> str:
+        clean = value.strip()
+        if not clean:
+            raise ValueError("Resume URL is required")
+        if not (clean.startswith("http://") or clean.startswith("https://")):
+            raise ValueError("Resume URL must start with http:// or https://")
+        if len(clean) > 2048:
+            raise ValueError("Resume URL cannot exceed 2048 characters")
+        return clean
+
 

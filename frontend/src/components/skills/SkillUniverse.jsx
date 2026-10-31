@@ -58,6 +58,9 @@ export function SkillUniverse({ category }) {
 
   const getCategoryTone = (skillCategory, name) => {
     const n = (name || '').toLowerCase()
+    if (skillCategory === 'Both') {
+      return 'cyan'
+    }
     if (skillCategory === 'Data Analysis' || n.includes('pandas') || n.includes('numpy') || n.includes('excel') || n.includes('power bi')) {
       return 'rose'
     }

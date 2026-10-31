@@ -16,6 +16,7 @@ import { Alert } from '../../components/admin/Alert'
 const CATEGORIES = [
   { id: 'Development', label: 'Development' },
   { id: 'Data Analysis', label: 'Data Analysis' },
+  { id: 'Both', label: 'Both' },
 ]
 
 const emptyForm = {
@@ -76,7 +77,9 @@ export function AdminSkills() {
     setEditingId(skill.id)
     setFormData({
       name: skill.name || '',
-      category: skill.category === 'Data Analysis' ? 'Data Analysis' : 'Development',
+      category: ['Development', 'Data Analysis', 'Both'].includes(skill.category)
+        ? skill.category
+        : 'Development',
       display_order: skill.display_order ?? 0,
     })
     setFormError(null)
@@ -92,8 +95,8 @@ export function AdminSkills() {
       return
     }
 
-    if (!formData.category || !['Development', 'Data Analysis'].includes(formData.category)) {
-      setFormError('Skill Category is required. Choose Development or Data Analysis.')
+    if (!formData.category || !['Development', 'Data Analysis', 'Both'].includes(formData.category)) {
+      setFormError('Skill Category is required. Choose Development, Data Analysis, or Both.')
       return
     }
 
@@ -143,7 +146,14 @@ export function AdminSkills() {
   }
 
   const filteredSkills = skills.filter((s) => {
-    const matchesTab = activeTab === 'all' || s.category === activeTab
+    let matchesTab = activeTab === 'all'
+    if (activeTab === 'Development') {
+      matchesTab = s.category === 'Development' || s.category === 'Both'
+    } else if (activeTab === 'Data Analysis') {
+      matchesTab = s.category === 'Data Analysis' || s.category === 'Both'
+    } else if (activeTab === 'Both') {
+      matchesTab = s.category === 'Both'
+    }
     const q = search.toLowerCase()
     const matchesSearch = s.name?.toLowerCase().includes(q) || s.category?.toLowerCase().includes(q)
     return matchesTab && matchesSearch
@@ -152,6 +162,9 @@ export function AdminSkills() {
   const getCategoryBadgeClass = (category) => {
     if (category === 'Data Analysis') {
       return 'bg-pink-500/20 text-pink-300 border-pink-500/30'
+    }
+    if (category === 'Both') {
+      return 'bg-purple-500/20 text-purple-300 border-purple-500/30'
     }
     return 'bg-sky-500/20 text-sky-300 border-sky-500/30'
   }
@@ -211,6 +224,7 @@ export function AdminSkills() {
           {CATEGORIES.map((cat) => {
             const count = skills.filter((s) => s.category === cat.id).length
             const isDA = cat.id === 'Data Analysis'
+            const isBoth = cat.id === 'Both'
             return (
               <button
                 key={cat.id}
@@ -222,6 +236,8 @@ export function AdminSkills() {
                   activeTab === cat.id
                     ? isDA
                       ? 'bg-[#FF2D95] text-white shadow-2xs font-semibold'
+                      : isBoth
+                      ? 'bg-purple-600 text-white shadow-2xs font-semibold'
                       : 'bg-[#007BA7] text-white shadow-2xs font-semibold'
                     : 'text-slate-400 hover:text-slate-200 bg-slate-900 hover:bg-slate-800'
                 }`}
