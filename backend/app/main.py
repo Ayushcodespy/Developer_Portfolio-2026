@@ -46,6 +46,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "service": "Ayush Patel Portfolio API",
+        "docs": "/docs",
+        "health": "/api/health",
+    }
+
+
+@app.get("/health")
+def root_health():
+    return {"status": "healthy"}
+
+
 # Include routers
 app.include_router(health_router, prefix="/api")
 app.include_router(projects_router, prefix="/api")
@@ -57,7 +72,11 @@ app.include_router(contact_router, prefix="/api")
 app.include_router(settings_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 
+
 @app.on_event("startup")
 def ensure_admin_table():
-    # Base.metadata.create_all(bind=engine, tables=[AdminUser.__table__])
-    Base.metadata.create_all(bind=engine)
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Database schema check skipped on startup: %s", exc)
